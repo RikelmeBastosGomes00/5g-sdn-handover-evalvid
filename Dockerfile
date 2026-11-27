@@ -76,9 +76,10 @@ RUN find /sim/ns-3.48 -type f \( -name "*.sh" -o -name "ns3" -o -name "*.py" \) 
     && chmod +x ns3 \
     && chmod +x etmp4 mp4trace psnr mos 2>/dev/null || true
 
-# Configurar e compilar (optimized profile, compila src, contrib e scratch)
-RUN ./ns3 configure --build-profile=optimized \
-    && ./ns3 build -j"$(nproc)"
+# Configurar e compilar (optimized profile, sem exemplos/testes para economizar RAM e tempo)
+# Limita jobs paralelos a min(nproc, 4) para evitar OOM kill em máquinas com pouca RAM
+RUN ./ns3 configure --build-profile=optimized --disable-examples --disable-tests \
+    && JOBS=$(nproc) && [ "$JOBS" -gt 4 ] && JOBS=4; ./ns3 build -j"$JOBS"
 
 # ---------------------------------------------------------------------------
 # Stage 4: Runtime (imagem menor, só o necessário para rodar)
