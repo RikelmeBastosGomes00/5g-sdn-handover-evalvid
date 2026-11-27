@@ -1,0 +1,30 @@
+services:
+  # ── Imagem pronta para rodar simulações ──
+  ns3-sim:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: runtime
+    image: ns3-5g-sdn-video:latest
+    container_name: ns3-sim
+    volumes:
+      - ./results:/sim/ns-3.48/results         # Resultados persistentes
+    working_dir: /sim/ns-3.48
+    stdin_open: true
+    tty: true
+
+  # ── Imagem de desenvolvimento (com toolchain de compilação) ──
+  ns3-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: ns3-build
+    image: ns3-5g-sdn-video:dev
+    container_name: ns3-dev
+    volumes:
+      - ./ns-3.48/scratch:/sim/ns-3.48/scratch   # Editar cenários sem rebuild
+      - ./ns-3.48/contrib:/sim/ns-3.48/contrib   # Editar módulos contrib
+      - ./results:/sim/ns-3.48/results
+    working_dir: /sim/ns-3.48
+    stdin_open: true
+    tty: true

@@ -1,0 +1,31 @@
+# Artefatos de build (serão recompilados no container)
+ns-3.48/build/
+ns-3.48/cmake-cache/
+ns-3.48/.lock-ns3_*
+ns-3.48/default/
+
+# Resultados de simulação anteriores
+ns-3.48/results/
+
+# ZIPs redundantes (código fonte já está descompactado)
+*.zip
+
+# Git
+.git/
+.gitattributes
+
+# Arquivos temporários / gerados
+*.o
+*.pyc
+__pycache__/
+ns-3.48/hist/
+
+# YUV brutos grandes (regenerados pelo pipeline)
+ns-3.48/akiyo_cif.yuv
+
+# Arquivos de doc/editor
+*.swp
+*.swo
+*~
+.vscode/
+.idea/

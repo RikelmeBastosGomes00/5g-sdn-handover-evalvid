@@ -1,0 +1,37 @@
+# ── Artefatos de compilação do ns-3 ──
+ns-3.48/build/
+ns-3.48/cmake-cache/
+ns-3.48/.lock-ns3_*
+ns-3.48/default/
+
+# ── Artefatos de compilação do ofsoftswitch13 / bofuss ──
+ofsoftswitch13/*.o
+ofsoftswitch13/.deps/
+ofsoftswitch13/config.log
+ofsoftswitch13/config.status
+ofsoftswitch13/Makefile
+sources/lib/.deps/
+sources/lib/*.o
+
+# ── Resultados de simulações locais ──
+results/
+ns-3.48/results/
+
+# ── Arquivos de mídia temporários / brutos (regeneráveis) ──
+*.yuv
+ns-3.48/akiyo_cif.yuv
+
+# ── Arquivos compactados antigos ──
+*.zip
+*.tar.gz
+
+# ── Temporários do sistema e editores ──
+nul
+.DS_Store
+*.swp
+*.swo
+*~
+__pycache__/
+*.pyc
+.vscode/
+.idea/
