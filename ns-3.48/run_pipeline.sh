@@ -51,7 +51,7 @@ echo "=================================================================="
 SIM_BIN=$(find "$NS3_DIR/build/scratch" -maxdepth 2 -type f -executable -name "*${SCENARIO}*" 2>/dev/null | head -n 1)
 if [[ -z "$SIM_BIN" ]]; then
     cd "$NS3_DIR"
-    ./ns3 build "$SCENARIO"
+    ./ns3 build "scratch/$SCENARIO"
     SIM_BIN=$(find "$NS3_DIR/build/scratch" -maxdepth 2 -type f -executable -name "*${SCENARIO}*" | head -n 1)
 fi
 cd "$OUT_DIR"

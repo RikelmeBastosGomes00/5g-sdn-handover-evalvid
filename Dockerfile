@@ -76,9 +76,11 @@ RUN find /sim/ns-3.48 -type f \( -name "*.sh" -o -name "ns3" -o -name "*.py" \) 
     && chmod +x ns3 \
     && chmod +x etmp4 mp4trace psnr mos 2>/dev/null || true
 
-# Configurar e compilar (optimized profile)
+# Configurar e compilar (optimized profile) incluindo os cenários de simulação em scratch
 RUN ./ns3 configure --build-profile=optimized \
-    && ./ns3 build -j"$(nproc)"
+    && ./ns3 build -j"$(nproc)" \
+    && ./ns3 build scratch/sdn-5g-handover-evalvid \
+    && ./ns3 build scratch/sdn-5g-handover-pbr-h264
 
 # ---------------------------------------------------------------------------
 # Stage 4: Runtime (imagem menor, só o necessário para rodar)
