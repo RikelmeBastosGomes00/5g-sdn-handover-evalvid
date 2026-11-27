@@ -58,9 +58,16 @@ function(create_scratch source_files)
           EXECNAME ${scratch_name}
           EXECNAME_PREFIX ${target_prefix}
           SOURCE_FILES "${source_files}"
-          LIBRARIES_TO_LINK "${ns3-libs}" "${ns3-contrib-libs}"
+          LIBRARIES_TO_LINK ${ns3-libs} ${ns3-contrib-libs}
           EXECUTABLE_DIRECTORY_PATH ${scratch_directory}/
   )
+  if(TARGET ${target_prefix}${scratch_name})
+    foreach(contrib_lib ${ns3-contrib-libs})
+      if(TARGET ${contrib_lib})
+        add_dependencies(${target_prefix}${scratch_name} ${contrib_lib})
+      endif()
+    endforeach()
+  endif()
 endfunction()
 
 # Scan *.cc files in ns-3-dev/scratch and build a target for each
