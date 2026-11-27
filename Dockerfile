@@ -52,9 +52,9 @@ WORKDIR /build/ofsoftswitch13
 RUN find /build -type f \( -name "configure" -o -name "*.sh" -o -name "configure.ac" -o -name "*.m4" \) -exec sed -i 's/\r$//' {} + 2>/dev/null || true \
     && chmod -R +x /build/ofsoftswitch13 2>/dev/null || true \
     && if [ -f configure ]; then \
-        sh ./configure; \
+    sh ./configure; \
     elif [ -f configure.ac ]; then \
-        autoreconf -i && sh ./configure; \
+    autoreconf -i && sh ./configure; \
     fi \
     && make -j"$(nproc)" \
     && make install \
@@ -76,11 +76,9 @@ RUN find /sim/ns-3.48 -type f \( -name "*.sh" -o -name "ns3" -o -name "*.py" \) 
     && chmod +x ns3 \
     && chmod +x etmp4 mp4trace psnr mos 2>/dev/null || true
 
-# Configurar e compilar (optimized profile) incluindo os cenários de simulação em scratch
+# Configurar e compilar (optimized profile, compila src, contrib e scratch)
 RUN ./ns3 configure --build-profile=optimized \
-    && ./ns3 build -j"$(nproc)" \
-    && ./ns3 build scratch/sdn-5g-handover-evalvid \
-    && ./ns3 build scratch/sdn-5g-handover-pbr-h264
+    && ./ns3 build -j"$(nproc)"
 
 # ---------------------------------------------------------------------------
 # Stage 4: Runtime (imagem menor, só o necessário para rodar)
@@ -160,7 +158,7 @@ RUN ldconfig \
     && chmod +x /entrypoint.sh \
     && find /sim/ns-3.48 -type f -name "*.sh" -exec sed -i 's/\r$//' {} + 2>/dev/null || true \
     && chmod +x etmp4 mp4trace psnr mos \
-                run_pipeline.sh run_pbr_h264_experiment.sh \
+    run_pipeline.sh run_pbr_h264_experiment.sh \
     && cp -f etmp4 mp4trace psnr mos /usr/local/bin/ \
     && touch cmake-cache/build.ninja cmake-cache/CMakeCache.txt 2>/dev/null || true \
     && mkdir -p /sim/ns-3.48/results

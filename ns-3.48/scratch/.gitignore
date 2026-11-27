@@ -1,8 +1,11 @@
-# Ignore everything on scratch by default, except the provided examples
+# Whitelist dos cenários de simulação do projeto
 /*
 !.gitignore
-
-!nested-subdir/
-!subdir/
-!scratch-simulator.cc
 !CMakeLists.txt
+!scratch-simulator.cc
+!subdir/
+!nested-subdir/
+
+# Nossos cenários 5G + SDN + EvalVid
+!sdn-5g-handover-evalvid.cc
+!sdn-5g-handover-pbr-h264.cc
