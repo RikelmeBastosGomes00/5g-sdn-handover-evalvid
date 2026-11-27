@@ -60,16 +60,16 @@ O projeto utiliza **ns-3.48** + **5G-LENA NR (v5.1)** + **EvalVid** + **OFSwitch
 
 ### Passo 1: Clonar o repositório
 ```bash
-git clone <URL_DO_REPOSITORIO>
-cd ns3-5g-sdn-video
+git clone https://github.com/RikelmeBastosGomes00/5g-sdn-handover-evalvid.git
+cd 5g-sdn-handover-evalvid
 ```
 
 ### Passo 2: Construir a imagem (Apenas na primeira vez)
 ```bash
-make build
-# ou: docker compose build ns3-sim
+docker compose build ns3-sim
+# ou: make build
 ```
-> ⏱️ **Nota:** O primeiro build compila o ns-3 e seus módulos C++ (leva ~15 a 25 minutos dependendo do seu processador). Os builds seguintes são instantâneos via cache.
+> ⏱️ **Nota:** O primeiro build compila o ns-3 e seus módulos C++ (leva ~10 a 20 minutos dependendo do seu processador). Os builds seguintes são instantâneos via cache.
 
 ---
 
@@ -78,11 +78,16 @@ make build
 Você pode rodar diretamente da raiz do projeto usando qualquer um dos métodos abaixo:
 
 #### Método A: Atalhos Diretos na Raiz (Mais Fácil)
-```bash
-# Executa o pipeline completo do EvalVid (prepara vídeo, simula, calcula PSNR e MOS):
-./run_pipeline.sh
-
-# Executa o experimento PBR completo com gráficos:
+- **No Linux / WSL / Git Bash:**
+  ```bash
+  ./run_pipeline.sh              # Pipeline EvalVid
+  ./run_pbr_h264_experiment.sh   # Experimento PBR
+  ```
+- **No Windows (Prompt de Comando / CMD ou PowerShell):**
+  ```cmd
+  run_pipeline.bat
+  run_pbr_h264_experiment.bat
+  ```
 ./run_pbr_h264_experiment.sh
 ```
 

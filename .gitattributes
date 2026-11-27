@@ -1,0 +1,15 @@
+# Garantir que todos os scripts, fontes e arquivos de build usem quebras de linha LF (Linux)
+# Isso impede que o Git for Windows converta arquivos para CRLF (\r\n) ao clonar,
+# o que quebra a execucao de scripts e do ./configure dentro dos containers Linux.
+* text=auto eol=lf
+*.sh text eol=lf
+*.py text eol=lf
+*.cc text eol=lf
+*.h text eol=lf
+*.ac text eol=lf
+*.m4 text eol=lf
+configure text eol=lf
+Makefile text eol=lf
+Dockerfile text eol=lf
+.dockerignore text eol=lf
+.gitignore text eol=lf

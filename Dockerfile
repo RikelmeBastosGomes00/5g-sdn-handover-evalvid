@@ -19,7 +19,7 @@ RUN dpkg --add-architecture i386
 RUN apt-get update && apt-get install -y --no-install-recommends \
     # ── Build tools ──
     build-essential cmake ninja-build ccache g++ \
-    pkg-config autoconf automake libtool flex bison \
+    pkg-config autoconf automake libtool flex bison dos2unix \
     # ── Python (ns-3 build system + scripts de plot) ──
     python3 python3-dev python3-pip python3-setuptools \
     python3-pandas python3-matplotlib \
@@ -49,10 +49,12 @@ COPY ofsoftswitch13/ ./ofsoftswitch13/
 
 # Compilar ofsoftswitch13 (gera libofsoftswitch13 instalada em /usr/local)
 WORKDIR /build/ofsoftswitch13
-RUN if [ -f configure ]; then \
-        ./configure; \
+RUN find /build -type f \( -name "configure" -o -name "*.sh" -o -name "configure.ac" -o -name "*.m4" \) -exec sed -i 's/\r$//' {} + 2>/dev/null || true \
+    && chmod -R +x /build/ofsoftswitch13 2>/dev/null || true \
+    && if [ -f configure ]; then \
+        sh ./configure; \
     elif [ -f configure.ac ]; then \
-        autoreconf -i && ./configure; \
+        autoreconf -i && sh ./configure; \
     fi \
     && make -j"$(nproc)" \
     && make install \
@@ -69,8 +71,9 @@ COPY ns-3.48/ ./ns-3.48/
 
 WORKDIR /sim/ns-3.48
 
-# Permissões de execução para scripts e binários
-RUN chmod +x ns3 \
+# Permissões de execução para scripts e binários, e remoção de CRLF (Windows)
+RUN find /sim/ns-3.48 -type f \( -name "*.sh" -o -name "ns3" -o -name "*.py" \) -exec sed -i 's/\r$//' {} + 2>/dev/null || true \
+    && chmod +x ns3 \
     && chmod +x etmp4 mp4trace psnr mos 2>/dev/null || true
 
 # Configurar e compilar (optimized profile)
@@ -151,9 +154,11 @@ COPY --from=ns3-build /sim/ns-3.48/run_pbr_h264_experiment.sh   ./run_pbr_h264_e
 COPY entrypoint.sh /entrypoint.sh
 
 RUN ldconfig \
+    && sed -i 's/\r$//' /entrypoint.sh 2>/dev/null || true \
+    && chmod +x /entrypoint.sh \
+    && find /sim/ns-3.48 -type f -name "*.sh" -exec sed -i 's/\r$//' {} + 2>/dev/null || true \
     && chmod +x etmp4 mp4trace psnr mos \
                 run_pipeline.sh run_pbr_h264_experiment.sh \
-                /entrypoint.sh \
     && cp -f etmp4 mp4trace psnr mos /usr/local/bin/ \
     && touch cmake-cache/build.ninja cmake-cache/CMakeCache.txt 2>/dev/null || true \
     && mkdir -p /sim/ns-3.48/results
