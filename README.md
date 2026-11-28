@@ -64,12 +64,19 @@ git clone https://github.com/RikelmeBastosGomes00/5g-sdn-handover-evalvid.git
 cd 5g-sdn-handover-evalvid
 ```
 
+> 💡 **Usuários Linux / WSL / macOS:** Conceda permissão de execução aos scripts após o clone:
+> ```bash
+> chmod +x run_pipeline.sh run_pbr_h264_experiment.sh
+> ```
+
+---
+
 ### Passo 2: Construir a imagem (Apenas na primeira vez)
 ```bash
 docker compose build ns3-sim
 # ou: make build
 ```
-> ⏱️ **Nota:** O primeiro build compila o ns-3 e seus módulos C++ (leva ~10 a 20 minutos dependendo do seu processador). Os builds seguintes são instantâneos via cache.
+> ⏱️ **Nota:** O primeiro build compila o ns-3 e seus módulos C++ (leva ~10 a 15 minutos dependendo do seu processador). Os builds seguintes são instantâneos via cache.
 
 ---
 
@@ -80,18 +87,16 @@ Você pode rodar diretamente da raiz do projeto usando qualquer um dos métodos 
 #### Método A: Atalhos Diretos na Raiz (Mais Fácil)
 - **No Linux / WSL / Git Bash:**
   ```bash
-  ./run_pipeline.sh              # Pipeline EvalVid
-  ./run_pbr_h264_experiment.sh   # Experimento PBR
+  ./run_pipeline.sh              # Pipeline EvalVid (Prepara vídeo -> Simula 5G+SDN -> PSNR/MOS)
+  ./run_pbr_h264_experiment.sh   # Experimento PBR H.264 (Multi-UEs, métricas e gráficos)
   ```
 - **No Windows (Prompt de Comando / CMD ou PowerShell):**
   ```cmd
   run_pipeline.bat
   run_pbr_h264_experiment.bat
   ```
-./run_pbr_h264_experiment.sh
-```
 
-#### Método B: Via Makefile
+#### Método B: Via Makefile (Linux/WSL)
 ```bash
 make pipeline      # Executa o pipeline do EvalVid
 make experiment    # Executa o experimento PBR H.264
