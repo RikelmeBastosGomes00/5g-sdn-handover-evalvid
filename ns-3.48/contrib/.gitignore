@@ -1,5 +1,11 @@
-# Ignore everything by default, contrib sources are coming from other places
+# Manter os modulos contrib necessarios no repositorio do projeto
 *
-
-# Include specific files that should be tracked by Git
 !.gitignore
+
+# Modulos essenciais do projeto
+!evalvid/
+!evalvid/**
+!nr/
+!nr/**
+!ofswitch13/
+!ofswitch13/**
